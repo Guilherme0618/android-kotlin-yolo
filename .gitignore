@@ -1,0 +1,41 @@
+# Kotlin / Java
+*.class
+*.log
+*.tmp
+*.swp
+*.swo
+*.orig
+
+# Android Studio / IntelliJ
+.idea/
+*.iml
+
+# Gradle
+.gradle/
+build/
+**/build/
+
+# Local configuration
+local.properties
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Captures
+captures/
+
+# Native build
+.externalNativeBuild/
+.cxx/
+
+# Generated files
+/out/
+
+# APK / AAB
+*.apk
+*.aab
+
+# Signing files
+*.jks
+*.keystore
