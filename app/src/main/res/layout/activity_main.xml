@@ -5,76 +5,95 @@
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:padding="16dp"
     android:background="#F6F7FB"
-    android:padding="20dp"
     tools:context=".ui.MainActivity">
 
     <TextView
         android:id="@+id/txtTitle"
-        android:textColor="@color/black"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="20dp"
-        android:layout_marginTop="40dp"
-        android:layout_marginBottom="10dp"
-        android:text="Selecione uma Imagem para ser Analisada"
-        android:textSize="20dp"
-        app:layout_constraintBottom_toTopOf="@+id/btnSelectImg"
-        app:layout_constraintEnd_toEndOf="parent"
+        android:text="Detecção de objetos"
+        android:textSize="22sp"
+        android:textStyle="bold"
+        android:textColor="#1F2937"
+        android:gravity="center"
+        app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintEnd_toEndOf="parent" />
 
-
-    <Button
-        android:id="@+id/btnSelectImg"
-        android:layout_width="wrap_content"
+    <TextView
+        android:id="@+id/txtSubtitle"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="17dp"
-        android:layout_marginEnd="8dp"
-        android:backgroundTint="#506EE5"
-        android:text="Selecionar Img"
-        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginTop="6dp"
+        android:text="Selecione uma imagem e execute a inferência"
+        android:textSize="14sp"
+        android:textColor="#6B7280"
+        android:gravity="center"
+        app:layout_constraintTop_toBottomOf="@id/txtTitle"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/txtTitle" />
+        app:layout_constraintEnd_toEndOf="parent" />
 
     <ImageView
         android:id="@+id/imgPickView"
-        android:layout_width="172dp"
-        android:layout_height="222dp"
-        android:layout_marginStart="8dp"
-        android:scaleType="fitXY"
-        app:layout_constraintBottom_toTopOf="@+id/btnYolo"
+        android:layout_width="0dp"
+        android:layout_height="180dp"
+        android:layout_marginTop="20dp"
+        android:background="#FFFFFF"
+        android:scaleType="centerCrop"
+        android:contentDescription="Imagem selecionada"
+        android:src="@android:drawable/ic_menu_gallery"
+        app:layout_constraintTop_toBottomOf="@id/txtSubtitle"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/btnSelectImg"
-        tools:src="@tools:sample/avatars" />
+        app:layout_constraintEnd_toEndOf="parent" />
 
-    <ImageView
-        android:id="@+id/imgViewResult"
-        android:layout_width="172dp"
-        android:layout_height="222dp"
-        android:layout_marginStart="200dp"
-        android:scaleType="fitXY"
-        app:layout_constraintBottom_toTopOf="@+id/btnYolo"
+    <Button
+        android:id="@+id/btnSelectImg"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:text="Selecionar imagem"
+        app:layout_constraintTop_toBottomOf="@id/imgPickView"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/btnSelectImg"
-        app:layout_constraintVertical_bias="0.473"
-        tools:src="@tools:sample/avatars" />
+        app:layout_constraintEnd_toEndOf="parent" />
 
     <Button
         android:id="@+id/btnYolo"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginBottom="16dp"
-        android:text="Iniciar Detedcao Com YoloV8"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.495"
+        android:layout_marginTop="10dp"
+        android:text="Iniciar detecção"
+        app:layout_constraintTop_toBottomOf="@id/btnSelectImg"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/imgPickView" />
+        app:layout_constraintEnd_toEndOf="parent" />
 
+    <TextView
+        android:id="@+id/txtResultLabel"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:text="Resultado"
+        android:textStyle="bold"
+        android:textSize="16sp"
+        android:textColor="#1F2937"
+        app:layout_constraintTop_toBottomOf="@id/btnYolo"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+    <ImageView
+        android:id="@+id/imgViewResult"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="8dp"
+        android:background="#FFFFFF"
+        android:scaleType="fitCenter"
+        android:contentDescription="Resultado da detecção"
+        android:src="@android:drawable/ic_menu_report_image"
+        app:layout_constraintTop_toBottomOf="@id/txtResultLabel"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
