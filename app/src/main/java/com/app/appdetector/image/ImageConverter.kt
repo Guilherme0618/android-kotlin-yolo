@@ -16,7 +16,8 @@ class ImageConverter {
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
 
                 val source = ImageDecoder.createSource(context.contentResolver, imageUri)
-                ImageDecoder.decodeBitmap(source)
+
+                ImageDecoder.decodeBitmap(source) { decoder, _, _ -> decoder.allocator = ImageDecoder.ALLOCATOR_SOFTWARE}
 
             } else {
 

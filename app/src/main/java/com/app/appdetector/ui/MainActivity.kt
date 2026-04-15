@@ -14,6 +14,7 @@ import androidx.appcompat.app.AppCompatActivity
 import com.app.appdetector.R
 import com.app.appdetector.image.ImageConverter
 import com.app.appdetector.detector.YoloDetector
+import java.nio.ByteBuffer
 
 class MainActivity : AppCompatActivity() {
 
@@ -22,6 +23,7 @@ class MainActivity : AppCompatActivity() {
     private lateinit var resultImg: ImageView
     private lateinit var btnStartDetection: Button
     private var selectedImageUri: Uri? = null
+    private lateinit var yoloDetector: YoloDetector
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -29,9 +31,9 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
 
 
-        val yoloDetector = YoloDetector(this)
+        yoloDetector = YoloDetector(this)
         yoloDetector.setupModel("yolov8n_float16.tflite")
-        yoloDetector.logModelInfo()
+
 
         btnPickImg = findViewById(R.id.btnSelectImg)
         imgPicked = findViewById(R.id.imgPickView)
@@ -44,9 +46,8 @@ class MainActivity : AppCompatActivity() {
 
                 if (uri != null) {
                     selectedImageUri = uri
-                    Log.d("PhotoPicker", "Uri selecionada: $uri")
-
                     imgPicked.setImageURI(uri)
+                    Log.d("PhotoPicker", "Uri selecionada: $uri")
                 } else {
                     Log.d("PhotoPicker", "Nenhuma mídia selecionada")
                     selectedImageUri = null
@@ -69,16 +70,35 @@ class MainActivity : AppCompatActivity() {
             val imageConverter = ImageConverter()
             val bitmap: Bitmap? = imageConverter.loadBitmapFromUri(this, currentUri)
 
-            if (bitmap != null) {
-                Log.d(
-                    "ImageConverter",
-                    "Bitmap carregado com sucesso: ${bitmap.width}x${bitmap.height}"
-                )
-
-                resultImg.setImageBitmap(bitmap)
-                Toast.makeText(this, "Imagem carregada na memória", Toast.LENGTH_SHORT).show()
-            } else {
+            if (bitmap == null) {
                 Toast.makeText(this, "Erro ao carregar imagem", Toast.LENGTH_SHORT).show()
+                return@setOnClickListener
+            }
+
+            resultImg.setImageBitmap(bitmap)
+            val inputBuffer: ByteBuffer = yoloDetector.prepareInput(bitmap)
+            val output = yoloDetector.runInference(inputBuffer)
+
+
+            if (output == null) {
+                Toast.makeText(this, "Erro na inferência", Toast.LENGTH_SHORT).show()
+                return@setOnClickListener
+            }
+
+            val detections = yoloDetector.parseOutput(output)
+
+            Log.d("MainActivity", "Quantidade de detecções: ${detections.size}")
+
+            if (detections.isNotEmpty()) {
+                val first = detections[0]
+                Log.d(
+                    "MainActivity",
+                    "Primeira detecção -> classe=${first.classIndex}, confiança=${first.confidence}, x=${first.centerX}, y=${first.centerY}, w=${first.width}, h=${first.height}"
+                )
+                Toast.makeText(this, "Detecções encontradas: ${detections.size}", Toast.LENGTH_SHORT).show()
+            } else {
+                Log.d("MainActivity", "Nenhuma detecção acima do threshold")
+                Toast.makeText(this, "Nenhuma detecção encontrada", Toast.LENGTH_SHORT).show()
             }
         }
     }
