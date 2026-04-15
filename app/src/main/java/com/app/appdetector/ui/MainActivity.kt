@@ -13,6 +13,7 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import com.app.appdetector.R
 import com.app.appdetector.image.ImageConverter
+import com.app.appdetector.detector.YoloDetector
 
 class MainActivity : AppCompatActivity() {
 
@@ -20,13 +21,17 @@ class MainActivity : AppCompatActivity() {
     private lateinit var imgPicked: ImageView
     private lateinit var resultImg: ImageView
     private lateinit var btnStartDetection: Button
-
     private var selectedImageUri: Uri? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         setContentView(R.layout.activity_main)
+
+
+        val yoloDetector = YoloDetector(this)
+        yoloDetector.setupModel("yolov8n_float16.tflite")
+        yoloDetector.logModelInfo()
 
         btnPickImg = findViewById(R.id.btnSelectImg)
         imgPicked = findViewById(R.id.imgPickView)
