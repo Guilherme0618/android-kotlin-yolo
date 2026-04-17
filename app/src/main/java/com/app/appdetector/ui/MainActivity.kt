@@ -82,6 +82,12 @@ class MainActivity : AppCompatActivity() {
         enableEdgeToEdge()
         setContentView(R.layout.activity_main)
 
+
+        //labels = loadLabels("labels")
+        //yoloDetector = YoloDetector(this)
+        // yoloDetector.setupModel("yolov8n_float16.tflite")
+
+
         labels = loadLabels("fruitsLabels")
         yoloDetector = YoloDetector(this)
         yoloDetector.setupModel("modelFruits_float32.tflite")

@@ -91,6 +91,7 @@ class YoloDetector(private val context: Context) {
             return null
         }
 
+        //val output = Array(1) { Array(84) { FloatArray(8400) } }
         val output = Array(1) { Array(8) { FloatArray(8400) } }
 
         try {
