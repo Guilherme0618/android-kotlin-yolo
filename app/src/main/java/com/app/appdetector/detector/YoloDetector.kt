@@ -91,7 +91,7 @@ class YoloDetector(private val context: Context) {
             return null
         }
 
-        val output = Array(1) { Array(84) { FloatArray(8400) } }
+        val output = Array(1) { Array(8) { FloatArray(8400) } }
 
         try {
             currentInterpreter.run(inputBuffer, output)
@@ -109,7 +109,7 @@ class YoloDetector(private val context: Context) {
 
         val channels = output[0].size
         val predictions = output[0][0].size
-        val confidenceThreshold = 0.25f
+        val confidenceThreshold = 0.70f
 
         if (channels < 6) {
             Log.e("YoloDetector", "Formato de saída inesperado")
@@ -148,6 +148,16 @@ class YoloDetector(private val context: Context) {
         }
 
         return detections
+    }
+
+    fun convertToBox(centerX: Float, centerY: Float, width: Float, height: Float, imageWidth: Int, imageHeight: Int): FloatArray {
+
+        val left = (centerX - width / 2f) * imageWidth
+        val top = (centerY - height / 2f) * imageHeight
+        val right = (centerX + width / 2f) * imageWidth
+        val bottom = (centerY + height / 2f) * imageHeight
+
+        return floatArrayOf(left, top, right, bottom)
     }
 
 
